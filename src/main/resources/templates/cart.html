@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Koszyk</title>
+    <link rel="stylesheet" th:href="@{/app.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="/products">
+            <span class="brand-logo">🛠️</span>
+            <span class="brand-name">TommyTools</span>
+        </a>
+
+        <nav class="nav">
+            <a class="nav-link" href="/products">Produkty</a>
+            <a class="nav-link active" href="/products/cart">Koszyk</a>
+        </nav>
+
+        <div class="actions">
+            <a class="action-link" href="/login">Zaloguj</a>
+            <a class="action-link primary" href="/register">Załóż konto</a>
+
+            <a class="cart-btn" href="/products/cart" title="Koszyk">
+                🛒
+                <span class="badge" th:text="${cart.totalItems}">0</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <section class="content">
+        <div class="section-head">
+            <h1>Koszyk</h1>
+        </div>
+
+        <div th:if="${#lists.isEmpty(lines)}">
+            Koszyk jest pusty. <a href="/products">Wróć do produktów</a>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(lines)}">
+            <table class="table" style="margin-top: 12px;">
+                <tr>
+                    <th>Produkt</th>
+                    <th>Cena</th>
+                    <th>Ilość</th>
+                    <th>Suma</th>
+                    <th></th>
+                </tr>
+
+                <tr th:each="line : ${lines}">
+                    <td th:text="${line.product.name}">Nazwa</td>
+                    <td th:text="${line.product.price} + ' zł'">0 zł</td>
+
+                    <td style="display:flex; gap:8px; align-items:center;">
+                        <form th:action="@{/products/cart/removeOne/{id}(id=${line.product.id})}" method="post">
+                            <button type="submit">-</button>
+                        </form>
+
+                        <b th:text="${line.qty}">1</b>
+
+                        <form th:action="@{/products/cart/addOne/{id}(id=${line.product.id})}" method="post">
+                            <button type="submit">+</button>
+                        </form>
+                    </td>
+
+                    <td th:text="${line.lineTotal} + ' zł'">0 zł</td>
+
+                    <td>
+                        <form th:action="@{/products/cart/removeAll/{id}(id=${line.product.id})}" method="post">
+                            <button type="submit">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 14px; display:flex; justify-content: space-between; align-items:center;">
+                <div><b>Razem:</b> <span th:text="${total} + ' zł'">0 zł</span></div>
+
+                <div style="display:flex; gap:10px;">
+                    <a class="btn" href="/products">Kontynuuj zakupy</a>
+
+                    <form action="/products/cart/clear" method="post" style="margin:0;">
+                        <button type="submit">Wyczyść koszyk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+package com.tommytools;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TommyToolsApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TommyToolsApplication.class, args);
+	}
+
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Rejestracja</title>
+    <link rel="stylesheet" th:href="@{/app.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="/products">
+            <span class="brand-logo">🛠️</span>
+            <span class="brand-name">TommyTools</span>
+        </a>
+
+        <nav class="nav">
+            <a class="nav-link" href="/products">Produkty</a>
+            <a class="nav-link" href="/products/cart">Koszyk</a>
+        </nav>
+
+        <div class="actions">
+            <a class="action-link" href="/login">Zaloguj</a>
+            <a class="action-link primary active" href="/register">Załóż konto</a>
+
+            <a class="cart-btn" href="/products/cart" title="Koszyk">
+                🛒
+                <span class="badge" th:text="${cart.totalItems}">0</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <section class="auth-wrap">
+        <div class="auth-card">
+            <h1>Rejestracja</h1>
+
+            <div class="error" th:if="${error}" th:text="${error}">Błąd</div>
+
+            <form method="post" action="/register" class="auth-form">
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="np. tommy@tools.pl" th:value="${email}" required>
+                </label>
+
+                <label>
+                    Hasło
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </label>
+
+                <label>
+                    Powtórz hasło
+                    <input type="password" name="confirmPassword" placeholder="••••••••" required>
+                </label>
+
+                <button type="submit" class="add">Utwórz konto</button>
+            </form>
+
+            <div class="auth-footer">
+                Masz już konto? <a href="/login">Zaloguj się</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

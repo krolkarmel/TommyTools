@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>TommyTools - Sklep</title>
+    <link rel="stylesheet" th:href="@{/app.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="/products">
+            <span class="brand-logo">🛠️</span>
+            <span class="brand-name">TommyTools</span>
+        </a>
+
+        <nav class="nav">
+            <a class="nav-link active" href="/products">Produkty</a>
+            <!-- możesz dodać kolejne zakładki -->
+            <!-- <a class="nav-link" href="/about">O nas</a> -->
+        </nav>
+
+        <form class="top-search" method="get" action="/products">
+            <input name="q" placeholder="Szukaj produktów..." th:value="${q}">
+            <button type="submit">Szukaj</button>
+        </form>
+
+        <div class="actions">
+            <!-- placeholdery, dopóki nie zrobimy logowania -->
+            <a class="action-link" href="/login">Zaloguj</a>
+            <a class="action-link primary" href="/register">Załóż konto</a>
+
+            <a class="cart-btn" href="/products/cart" title="Koszyk">
+                🛒
+                <span class="badge" th:text="${cart.totalItems}">0</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <section class="hero">
+        <div class="hero-inner">
+            <div>
+                <div class="hero-title">Narzędzia, które robią robotę</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="section-head">
+            <h1>Produkty</h1>
+            <div class="hint" th:if="${q != null && !q.isBlank()}">
+                Wyniki dla: <b th:text="${q}">q</b>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card" th:each="p : ${products}">
+                <div class="name" th:text="${p.name}">Nazwa</div>
+                <div class="price" th:text="${p.price} + ' zł'">0 zł</div>
+
+                <form th:action="@{/products/{id}/add(id=${p.id})}" method="post">
+                    <input type="hidden" name="q" th:value="${q}">
+                    <button class="add" type="submit">Dodaj do koszyka</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
