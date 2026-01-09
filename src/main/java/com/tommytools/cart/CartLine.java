@@ -6,16 +6,27 @@ import java.math.BigDecimal;
 
 public class CartLine {
     private final Product product;
-    private final int qty;
-    private final BigDecimal lineTotal;
+    private int quantity;
 
-    public CartLine(Product product, int qty, BigDecimal lineTotal) {
+    public CartLine(Product product, int quantity) {
         this.product = product;
-        this.qty = qty;
-        this.lineTotal = lineTotal;
+        this.quantity = quantity;
     }
 
-    public Product getProduct() { return product; }
-    public int getQty() { return qty; }
-    public BigDecimal getLineTotal() { return lineTotal; }
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getLineTotal() {
+        if (product.getPrice() == null) return BigDecimal.ZERO;
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 }

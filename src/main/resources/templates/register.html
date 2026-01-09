@@ -1,67 +1,44 @@
 <!doctype html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8"/>
     <title>Rejestracja</title>
-    <link rel="stylesheet" th:href="@{/app.css}">
 </head>
-<body>
+<body style="font-family:system-ui; margin:0; color:#111; background:#fafafa;">
 
-<header class="topbar">
-    <div class="topbar-inner">
-        <a class="brand" href="/products">
-            <span class="brand-logo">🛠️</span>
-            <span class="brand-name">TommyTools</span>
-        </a>
+<div th:replace="fragments/navbar :: nav"></div>
 
-        <nav class="nav">
-            <a class="nav-link" href="/products">Produkty</a>
-            <a class="nav-link" href="/products/cart">Koszyk</a>
-        </nav>
+<main style="max-width:420px; margin:40px auto; padding:0 16px;">
+    <div style="background:#fff; border:1px solid #e5e5e5; border-radius:18px; padding:18px;">
+        <h1 style="margin:0 0 12px;">Rejestracja</h1>
 
-        <div class="actions">
-            <a class="action-link" href="/login">Zaloguj</a>
-            <a class="action-link primary active" href="/register">Załóż konto</a>
+        <p th:if="${error}" th:text="${error}" style="color:#c00; margin:0 0 10px;"></p>
 
-            <a class="cart-btn" href="/products/cart" title="Koszyk">
-                🛒
-                <span class="badge" th:text="${cart.totalItems}">0</span>
-            </a>
-        </div>
+        <form th:action="@{/register}" method="post" style="display:flex; flex-direction:column; gap:10px;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <label>
+                <div style="font-size:14px; color:#666; margin-bottom:4px;">Login</div>
+                <input name="username" minlength="3" required th:value="${username}"
+                       style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;">
+            </label>
+
+            <label>
+                <div style="font-size:14px; color:#666; margin-bottom:4px;">Hasło</div>
+                <input type="password" name="password" minlength="6" required
+                       style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;">
+            </label>
+
+            <button type="submit"
+                    style="padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer;">
+                Załóż konto
+            </button>
+        </form>
+
+        <p style="margin:12px 0 0; color:#666;">
+            Masz konto? <a th:href="@{/login}">Zaloguj się</a>
+        </p>
     </div>
-</header>
-
-<main class="page">
-    <section class="auth-wrap">
-        <div class="auth-card">
-            <h1>Rejestracja</h1>
-
-            <div class="error" th:if="${error}" th:text="${error}">Błąd</div>
-
-            <form method="post" action="/register" class="auth-form">
-                <label>
-                    Email
-                    <input type="email" name="email" placeholder="np. tommy@tools.pl" th:value="${email}" required>
-                </label>
-
-                <label>
-                    Hasło
-                    <input type="password" name="password" placeholder="••••••••" required>
-                </label>
-
-                <label>
-                    Powtórz hasło
-                    <input type="password" name="confirmPassword" placeholder="••••••••" required>
-                </label>
-
-                <button type="submit" class="add">Utwórz konto</button>
-            </form>
-
-            <div class="auth-footer">
-                Masz już konto? <a href="/login">Zaloguj się</a>
-            </div>
-        </div>
-    </section>
 </main>
 
 </body>

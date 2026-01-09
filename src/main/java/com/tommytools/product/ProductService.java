@@ -6,6 +6,7 @@ import java.util.List;
 
 @Service
 public class ProductService {
+
     private final ProductRepository repo;
 
     public ProductService(ProductRepository repo) {
@@ -13,13 +14,14 @@ public class ProductService {
     }
 
     public List<Product> list(String q) {
-        if (q == null || q.trim().isEmpty()) return repo.findAll();
+        if (q == null || q.trim().isEmpty()) {
+            return repo.findAll();
+        }
         return repo.findByNameContainingIgnoreCase(q.trim());
     }
 
     public Product get(Long id) {
-        Product p = repo.findById(id);
-        if (p == null) throw new IllegalArgumentException("Product not found: " + id);
-        return p;
+        return repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
     }
 }

@@ -2,40 +2,45 @@ package com.tommytools.cart;
 
 import com.tommytools.product.Product;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cart {
-    private final Map<Long, Integer> items = new LinkedHashMap<>();
 
-    public Map<Long, Integer> getItems() {
-        return items;
+    private final List<CartLine> lines = new ArrayList<>();
+
+    public List<CartLine> getLines() {
+        return lines;
     }
 
-    public void add(Product p) {
-        items.put(p.getId(), items.getOrDefault(p.getId(), 0) + 1);
+    public void add(Product product) {
+        if (product == null) return;
+
+        for (CartLine line : lines) {
+            if (line.getProduct().getId().equals(product.getId())) {
+                line.setQuantity(line.getQuantity() + 1);
+                return;
+            }
+        }
+        lines.add(new CartLine(product, 1));
     }
 
-    public void removeOne(Long productId) {
-        Integer qty = items.get(productId);
-        if (qty == null) return;
-        if (qty <= 1) items.remove(productId);
-        else items.put(productId, qty - 1);
-    }
-
-    public void clear() {
-        items.clear();
+    public void remove(Long productId) {
+        if (productId == null) return;
+        lines.removeIf(l -> l.getProduct() != null && productId.equals(l.getProduct().getId()));
     }
 
     public int getTotalItems() {
-        int sum = 0;
-        for (Integer qty : items.values()) {
-            sum += qty;
-        }
-        return sum;
+        return lines.stream().mapToInt(CartLine::getQuantity).sum();
     }
 
-    public void removeAll(Long productId) {
-        items.remove(productId);
+    public BigDecimal getTotalPrice() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (CartLine line : lines) {
+            total = total.add(line.getLineTotal());
+        }
+        return total;
     }
+
 }

@@ -1,0 +1,50 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Logowanie</title>
+</head>
+<body style="font-family:system-ui; margin:0; background:#fafafa; color:#111;">
+
+<div th:replace="~{fragments/navbar :: nav}"></div>
+
+<main style="max-width:520px; margin:26px auto; padding:0 16px;">
+    <h1 style="margin:10px 0;">Logowanie</h1>
+
+    <div th:if="${param.error}"
+         style="margin:12px 0; padding:12px; border:1px solid #f1c0c0; background:#fff3f3; border-radius:12px;">
+        Błędny login lub hasło.
+    </div>
+
+    <div th:if="${param.logout}"
+         style="margin:12px 0; padding:12px; border:1px solid #d9f0d9; background:#f3fff3; border-radius:12px;">
+        Wylogowano.
+    </div>
+
+    <form th:action="@{/login}" method="post"
+          style="background:#fff; border:1px solid #e5e5e5; border-radius:16px; padding:16px;">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <label style="display:block; font-weight:700; margin-bottom:6px;">Login</label>
+        <input name="username" type="text" required
+               style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;"/>
+
+        <div style="height:12px;"></div>
+
+        <label style="display:block; font-weight:700; margin-bottom:6px;">Hasło</label>
+        <input name="password" type="password" required
+               style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;"/>
+
+        <button type="submit"
+                style="margin-top:14px; width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer;">
+            Zaloguj
+        </button>
+
+        <p style="margin-top:12px; color:#666; font-size:13px;">
+            Test admin: <b>admin</b> / <b>admin123</b>
+        </p>
+    </form>
+</main>
+
+</body>
+</html>
