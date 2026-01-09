@@ -3,6 +3,7 @@ package com.tommytools.cart;
 import com.tommytools.product.Product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,10 @@ public class Cart {
         for (CartLine line : lines) {
             total = total.add(line.getLineTotal());
         }
-        return total;
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 
+    public void clear() {
+        lines.clear();
+    }
 }

@@ -2,47 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Logowanie</title>
+    <title>Zaloguj się</title>
+
+    <style>
+        * { box-sizing: border-box; }
+        .card {
+          background:#fff; border:1px solid #e5e5e5; border-radius:16px; padding:18px;
+          max-width:720px; margin:26px auto;
+        }
+        .input {
+          width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ddd; outline:none;
+        }
+        .btn {
+          width:100%; margin-top:14px; padding:12px 14px; border-radius:12px;
+          border:1px solid #ddd; background:#fff; cursor:pointer; font-weight:800;
+        }
+        .muted { color:#666; }
+        .msg-ok { margin:12px 0; padding:12px; border:1px solid #d9f0d9; background:#f3fff3; border-radius:12px; }
+        .msg-err { margin:12px 0; padding:12px; border:1px solid #f1c0c0; background:#fff3f3; border-radius:12px; }
+    </style>
 </head>
+
 <body style="font-family:system-ui; margin:0; color:#111; background:#fafafa;">
+<div th:replace="~{fragments/navbar :: nav}"></div>
 
-<div th:replace="fragments/navbar :: nav"></div>
+<main style="max-width:980px; margin:0 auto; padding:0 16px;">
+    <div class="card">
 
-<main style="max-width:420px; margin:40px auto; padding:0 16px;">
-    <div style="background:#fff; border:1px solid #e5e5e5; border-radius:18px; padding:18px;">
-        <h1 style="margin:0 0 12px;">Zaloguj się</h1>
+        <h1 style="margin:6px 0 10px; font-size:46px;">Zaloguj się</h1>
 
-        <p th:if="${param.registered}" style="color:green; margin:0 0 10px;">
-            Konto utworzone. Zaloguj się.
-        </p>
-        <p th:if="${param.error}" style="color:#c00; margin:0 0 10px;">
+        <div th:if="${param.error}" class="msg-err">
             Błędny login lub hasło.
-        </p>
+        </div>
 
-        <form th:action="@{/login}" method="post" style="display:flex; flex-direction:column; gap:10px;">
+        <div th:if="${param.logout}" class="msg-ok">
+            Wylogowano.
+        </div>
+
+        <div th:if="${param.registered}" class="msg-ok">
+            Konto utworzone. Możesz się zalogować.
+        </div>
+
+        <form th:action="@{/login}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-            <label>
-                <div style="font-size:14px; color:#666; margin-bottom:4px;">Login</div>
-                <input name="username" autocomplete="username" required
-                       style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;">
-            </label>
+            <label style="display:block; font-weight:700; margin:10px 0 6px;">Login</label>
+            <input class="input" name="username" type="text" autocomplete="username" required/>
 
-            <label>
-                <div style="font-size:14px; color:#666; margin-bottom:4px;">Hasło</div>
-                <input type="password" name="password" autocomplete="current-password" required
-                       style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ddd;">
-            </label>
+            <label style="display:block; font-weight:700; margin:12px 0 6px;">Hasło</label>
+            <input class="input" name="password" type="password" autocomplete="current-password" required/>
 
-            <button type="submit"
-                    style="padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer;">
-                Zaloguj
-            </button>
+            <button class="btn" type="submit">Zaloguj</button>
         </form>
 
-        <p style="margin:12px 0 0; color:#666;">
-            Nie masz konta? <a th:href="@{/register}">Zarejestruj się</a>
+        <p class="muted" style="margin:14px 0 0;">
+            Nie masz konta?
+            <a th:href="@{/register}" style="font-weight:800;">Zarejestruj się</a>
         </p>
+
     </div>
 </main>
 

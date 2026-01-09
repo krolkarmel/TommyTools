@@ -43,12 +43,27 @@
             </div>
         </div>
 
-        <div style="margin-top:6px; padding:14px; border:1px solid #e5e5e5; border-radius:16px; background:#fff; display:flex; justify-content:space-between; align-items:center;">
-            <div style="color:#666;">
-                Razem sztuk: <b th:text="${cart.totalItems}">0</b>
+        <!-- PODSUMOWANIE + AKCJE -->
+        <div style="margin-top:6px; padding:14px; border:1px solid #e5e5e5; border-radius:16px; background:#fff;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                <div style="color:#666;">
+                    Razem sztuk: <b th:text="${cart.totalItems}">0</b>
+                </div>
+                <div style="font-weight:900; font-size:18px;">
+                    Suma: <span th:text="${cart.totalPrice} + ' zł'">0 zł</span>
+                </div>
             </div>
-            <div style="font-weight:900; font-size:18px;">
-                Suma: <span th:text="${cart.totalPrice} + ' zł'">0 zł</span>
+
+            <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                <a th:href="@{/products}"
+                   style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff;">
+                    ← Wróć do produktów
+                </a>
+
+                <a th:href="@{/checkout}"
+                   style="margin-left:auto; text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; font-weight:800;">
+                    Przejdź do podsumowania →
+                </a>
             </div>
         </div>
 

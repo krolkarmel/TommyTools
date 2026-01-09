@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dziękujemy</title>
+</head>
+<body style="font-family:system-ui; margin:0; color:#111; background:#fafafa;">
+
+<div th:replace="~{fragments/navbar :: nav}"></div>
+
+<main style="max-width:720px; margin:22px auto; padding:0 16px;">
+    <h1 style="margin:10px 0;">Dziękujemy za zamówienie!</h1>
+
+    <div style="background:#fff; border:1px solid #e5e5e5; border-radius:16px; padding:14px;">
+        <div style="color:#666;">Numer zamówienia:</div>
+        <div style="font-weight:900; font-size:22px;" th:text="${orderNo}">TT-XXXXXXX</div>
+
+        <div th:if="${customerName != null}" style="margin-top:10px; color:#666;">
+            Klient: <b th:text="${customerName}">Jan Kowalski</b>
+        </div>
+
+        <a href="/products"
+           style="display:inline-block; margin-top:14px; text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff;">
+            Wróć do produktów
+        </a>
+    </div>
+</main>
+
+</body>
+</html>

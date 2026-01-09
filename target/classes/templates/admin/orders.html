@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8"/><title>Admin - Zamówienia</title></head>
+<body style="font-family:system-ui; margin:0; background:#fafafa; color:#111;">
+<div th:replace="~{fragments/navbar :: nav}"></div>
+
+<main style="max-width:980px; margin:22px auto; padding:0 16px;">
+    <h1 style="margin:10px 0;">Zamówienia</h1>
+
+    <div th:if="${orders == null || #lists.isEmpty(orders)}"
+         style="padding:18px; border:1px solid #e5e5e5; border-radius:16px; background:#fff;">
+        Brak zamówień.
+    </div>
+
+    <div th:if="${orders != null && !#lists.isEmpty(orders)}"
+         style="background:#fff; border:1px solid #e5e5e5; border-radius:16px; overflow:hidden;">
+
+        <div style="display:grid; grid-template-columns: 170px 1fr 140px 160px; padding:12px; font-weight:800; border-bottom:1px solid #eee;">
+            <div>Numer</div><div>Klient</div><div>Suma</div><div>Status</div>
+        </div>
+
+        <a th:each="o : ${orders}" th:href="@{'/admin/orders/' + ${o.id}}"
+           style="display:grid; grid-template-columns: 170px 1fr 140px 160px; padding:12px; gap:10px; text-decoration:none; color:#111; border-bottom:1px solid #f0f0f0;">
+            <div style="font-weight:900;" th:text="${o.orderNo}">TT-XXXX</div>
+            <div>
+                <div style="font-weight:700;" th:text="${o.fullName}">Jan</div>
+                <div style="color:#666; font-size:12px;" th:text="${o.email}">mail</div>
+            </div>
+            <div style="font-weight:900;" th:text="${o.totalPrice} + ' zł'">0 zł</div>
+            <div th:text="${o.status}">NEW</div>
+        </a>
+    </div>
+
+    <p style="margin-top:14px;">
+        <a href="/admin" style="text-decoration:none;">← Panel admina</a>
+    </p>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8"/><title>Admin - Użytkownicy</title></head>
+<body style="font-family:system-ui; margin:0; background:#fafafa; color:#111;">
+<div th:replace="~{fragments/navbar :: nav}"></div>
+
+<main style="max-width:980px; margin:22px auto; padding:0 16px;">
+    <h1 style="margin:10px 0;">Użytkownicy</h1>
+
+    <div style="background:#fff; border:1px solid #e5e5e5; border-radius:16px; overflow:hidden;">
+        <div style="display:grid; grid-template-columns: 1fr 200px 220px; padding:12px; font-weight:900; border-bottom:1px solid #eee;">
+            <div>Login</div><div>Rola</div><div>Akcja</div>
+        </div>
+
+        <div th:each="u : ${users}"
+             style="display:grid; grid-template-columns: 1fr 200px 220px; padding:12px; gap:10px; border-bottom:1px solid #f0f0f0; align-items:center;">
+            <div style="font-weight:800;" th:text="${u.username}">user</div>
+            <div th:text="${u.role}">USER</div>
+
+            <form th:action="@{'/admin/users/' + ${u.id} + '/role'}" method="post" style="margin:0; display:flex; gap:8px;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <select name="role" style="padding:10px 12px; border-radius:12px; border:1px solid #ddd; width:100%;">
+                    <option th:each="r : ${roles}" th:value="${r}" th:selected="${r == u.role}" th:text="${r}">USER</option>
+                </select>
+                <button type="submit" style="padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer; font-weight:800;">
+                    Zapisz
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <p style="margin-top:14px;">
+        <a href="/admin" style="text-decoration:none;">← Panel admina</a>
+    </p>
+</main>
+</body>
+</html>
